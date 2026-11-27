@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loyalty Tester — Instant Loyalty & Compatibility Intelligence</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #09090b;
+      color: #f4f4f5;
+    }
+    .glass-card {
+      background: rgba(24, 24, 27, 0.75);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #f97316 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #9333ea 0%, #db2777 100%);
+      transition: all 0.2s ease;
+    }
+    .btn-primary:hover {
+      opacity: 0.92;
+      transform: translateY(-1px);
+      box-shadow: 0 10px 25px -5px rgba(219, 39, 119, 0.4);
+    }
+    .blur-lock {
+      filter: blur(6px);
+      user-select: none;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-pink-500 selection:text-white">
+
+  <!-- Navbar -->
+  <header class="border-b border-zinc-800/80 py-4 px-6 sticky top-0 z-40 bg-zinc-950/80 backdrop-blur-md">
+    <div class="max-w-5xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center font-extrabold text-white text-sm shadow-md">
+          LT
+        </div>
+        <span class="font-bold text-lg tracking-tight">Loyalty<span class="text-pink-500">Tester</span></span>
+      </div>
+      <div class="flex items-center gap-4 text-sm">
+        <span id="creditsBadge" class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-medium text-xs">
+          1 Free Check Available
+        </span>
+        <a href="#pricing" class="text-zinc-400 hover:text-white transition hidden sm:inline">Pricing</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-4xl mx-auto w-full px-4 py-10 sm:py-14">
+
+    <!-- Hero -->
+    <div class="text-center max-w-2xl mx-auto mb-10">
+      <div class="inline-block px-3 py-1 mb-4 text-xs font-semibold tracking-wider uppercase rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">
+        No Sign-Up • Instant Behavioral & Alignment Analysis
+      </div>
+      <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight mb-4 leading-tight">
+        Know Where Their <span class="gradient-text">Loyalty</span> Really Stands.
+      </h1>
+      <p class="text-zinc-400 text-base sm:text-lg">
+        Whether it’s dating, marriage, a business partner, or a close friend—run an instant deep-alignment check in 30 seconds. Your first scan is 100% free.
+      </p>
+    </div>
+
+    <!-- Input Form Card -->
+    <section id="formSection" class="glass-card rounded-2xl p-6 sm:p-8 shadow-2xl">
+      <form id="loyaltyForm" class="space-y-8">
+
+        <!-- Context Selector -->
+        <div>
+          <label class="block text-sm font-semibold text-zinc-300 mb-3">What dynamic are you testing?</label>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5" id="contextPills">
+            <button type="button" data-context="Dating & Romance" class="context-btn active-pill py-2.5 px-3 rounded-xl text-sm font-medium border border-pink-500 bg-pink-500/15 text-white transition">
+              ❤️ Dating & Love
+            </button>
+            <button type="button" data-context="Marriage & Long-Term" class="context-btn py-2.5 px-3 rounded-xl text-sm font-medium border border-zinc-800 bg-zinc-900/60 text-zinc-400 hover:border-zinc-700 transition">
+              💍 Marriage
+            </button>
+            <button type="button" data-context="Business & Co-Founders" class="context-btn py-2.5 px-3 rounded-xl text-sm font-medium border border-zinc-800 bg-zinc-900/60 text-zinc-400 hover:border-zinc-700 transition">
+              💼 Business
+            </button>
+            <button type="button" data-context="Friendship & Trust" class="context-btn py-2.5 px-3 rounded-xl text-sm font-medium border border-zinc-800 bg-zinc-900/60 text-zinc-400 hover:border-zinc-700 transition">
+              🤝 Friendship
+            </button>
+          </div>
+          <input type="hidden" id="selectedContext" value="Dating & Romance" />
+        </div>
+
+        <!-- Two Columns: Person 1 & Person 2 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <!-- Person 1 (You) -->
+          <div class="p-5 rounded-xl bg-zinc-900/70 border border-zinc-800 space-y-4">
+            <div class="flex items-center justify-between">
+              <h2 class="font-bold text-base text-white">1. Your Details</h2>
+              <span class="text-xs text-zinc-500">Person A</span>
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-zinc-400 mb-1">First Name *</label>
+              <input type="text" id="p1Name" required placeholder="e.g., Alex"
+                class="w-full px-3.5 py-2.5 rounded-lg bg-zinc-950 border border-zinc-800 text-sm text-white focus:outline-none focus:border-pink-500" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-zinc-400 mb-1">Date of Birth *</label>
+              <input type="date" id="p1Dob" required
+                class="w-full px-3.5 py-2.5 rounded-lg bg-zinc-950 border border-zinc-800 text-sm text-white focus:outline-none focus:border-pink-500" />
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <label class="text-xs font-medium text-zinc-400">Time of Birth (Optional)</label>
+                <label class="flex items-center gap-1.5 text-xs text-zinc-500 cursor-pointer">
+                  <input type="checkbox" id="p1NoTime" class="rounded accent-pink-500" onchange="toggleInput('p1Time', this.checked)"> Unknown
+                </label>
+              </div>
+              <input type="time" id="p1Time"
+                class="w-full px-3.5 py-2.5 rounded-lg bg-zinc-950 border border-zinc-800 text-sm text-white focus:outline-none focus:border-pink-500" />
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <label class="text-xs font-medium text-zinc-400">Birth City & State (Optional)</label>
+                <label class="flex items-center gap-1.5 text-xs text-zinc-500 cursor-pointer">
+                  <input type="checkbox" id="p1NoPlace" class="rounded accent-pink-500" onchange="toggleInput('p1Place', this.checked)"> Unknown
+                </label>
+              </div>
+              <input type="text" id="p1Place" placeholder="e.g., Austin, TX"
+                class="w-full px-3.5 py-2.5 rounded-lg bg-zinc-950 border border-zinc-800 text-sm text-white focus:outline-none focus:border-pink-500" />
+            </div>
+          </div>
+
+          <!-- Person 2 (Partner/Other) -->
+          <div class="p-5 rounded-xl bg-zinc-900/70 border border-zinc-800 space-y-4">
+            <div class="flex items-center justify-between">
+              <h2 class="font-bold text-base text-white">2. Their Details</h2>
+              <span class="text-xs text-zinc-500">Person B</span>
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-zinc-400 mb-1">First Name *</label>
+              <input type="text" id="p2Name" required placeholder="e.g., Jordan"
+                class="w-full px-3.5 py-2.5 rounded-lg bg-zinc-950 border border-zinc-800 text-sm text-white focus:outline-none focus:border-pink-500" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-zinc-400 mb-1">Date of Birth *</label>
+              <input type="date" id="p2Dob" required
+                class="w-full px-3.5 py-2.5 rounded-lg bg-zinc-950 border border-zinc-800 text-sm text-white focus:outline-none focus:border-pink-500" />
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <label class="text-xs font-medium text-zinc-400">Time of Birth (Optional)</label>
+                <label class="flex items-center gap-1.5 text-xs text-zinc-500 cursor-pointer">
+                  <input type="checkbox" id="p2NoTime" class="rounded accent-pink-500" onchange="toggleInput('p2Time', this.checked)"> Unknown
+                </label>
+              </div>
+              <input type="time" id="p2Time"
+                class="w-full px-3.5 py-2.5 rounded-lg bg-zinc-950 border border-zinc-800 text-sm text-white focus:outline-none focus:border-pink-500" />
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <label class="text-xs font-medium text-zinc-400">Birth City & State (Optional)</label>
+                <label class="flex items-center gap-1.5 text-xs text-zinc-500 cursor-pointer">
+                  <input type="checkbox" id="p2NoPlace" class="rounded accent-pink-500" onchange="toggleInput('p2Place', this.checked)"> Unknown
+                </label>
+              </div>
+              <input type="text" id="p2Place" placeholder="e.g., Chicago, IL"
+                class="w-full px-3.5 py-2.5 rounded-lg bg-zinc-950 border border-zinc-800 text-sm text-white focus:outline-none focus:border-pink-500" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Specific Question -->
+        <div>
+          <label class="block text-xs font-medium text-zinc-400 mb-1.5">What specifically do you want to know? (Optional)</label>
+          <input type="text" id="specificQuestion" placeholder="e.g., Can I trust them long-term? Are they hiding their true intentions?"
+            class="w-full px-4 py-3 rounded-xl bg-zinc-950 border border-zinc-800 text-sm text-white focus:outline-none focus:border-pink-500" />
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" id="submitBtn" class="w-full btn-primary py-4 rounded-xl font-bold text-base text-white shadow-lg cursor-pointer">
+          Run Free Loyalty & Compatibility Check →
+        </button>
+        <p class="text-center text-xs text-zinc-500">
+          No email or account required. Don’t know their exact birth time or city? No problem—our model adapts automatically.
+        </p>
+      </form>
+    </section>
+
+    <!-- Loading Overlay -->
+    <div id="loadingState" class="hidden glass-card rounded-2xl p-12 text-center my-8">
+      <div class="w-12 h-12 border-4 border-pink-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+      <h3 class="text-lg font-bold text-white mb-1" id="loadingText">Mapping behavioral & alignment markers...</h3>
+      <p class="text-sm text-zinc-400">Cross-referencing trust stability, emotional pacing, and friction triggers</p>
+    </div>
+
+    <!-- Results Section -->
+    <section id="resultsSection" class="hidden mt-10 space-y-6">
+      <div class="glass-card rounded-2xl p-6 sm:p-8 border border-pink-500/30">
+        
+        <!-- Header & Score -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-zinc-800">
+          <div>
+            <span id="resContextTag" class="text-xs font-semibold uppercase tracking-wider text-pink-400">Dating & Romance</span>
+            <h2 id="resPairTitle" class="text-2xl sm:text-3xl font-extrabold text-white mt-1">Alex & Jordan</h2>
+            <p id="resPrecisionNote" class="text-xs text-zinc-400 mt-1">Full Precision Alignment Scan</p>
+          </div>
+          <div class="flex items-center gap-4 bg-zinc-900/90 px-5 py-3 rounded-2xl border border-zinc-800">
+            <div class="text-right">
+              <div class="text-xs text-zinc-400 uppercase font-semibold">Loyalty Score</div>
+              <div id="resVerdictLabel" class="text-xs font-medium text-emerald-400">Strong Alignment</div>
+            </div>
+            <div id="resScore" class="text-4xl font-black gradient-text">84%</div>
+          </div>
+        </div>
+
+        <!-- Core Summary (Free) -->
+        <div class="py-6 space-y-5">
+          <div>
+            <h3 class="text-sm font-bold uppercase tracking-wider text-zinc-400 mb-2">Core Dynamic Verdict</h3>
+            <p id="resSummary" class="text-zinc-200 text-base leading-relaxed"></p>
+          </div>
+
+          <div id="resQuestionBox" class="hidden p-4 rounded-xl bg-purple-500/10 border border-purple-500/20">
+            <div class="text-xs font-bold text-purple-300 uppercase mb-1">Answer to Your Specific Question</div>
+            <p id="resQuestionAnswer" class="text-sm text-zinc-200"></p>
+          </div>
+
+          <!-- Green Flag & Red Flag (Free Preview) -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+            <div class="p-4 rounded-xl bg-emerald-950/30 border border-emerald-500/20">
+              <div class="text-xs font-bold text-emerald-400 uppercase mb-1">✓ Biggest Green Flag</div>
+              <p id="resGreenFlag" class="text-sm text-zinc-300"></p>
+            </div>
+            <div class="p-4 rounded-xl bg-rose-950/30 border border-rose-500/20">
+              <div class="text-xs font-bold text-rose-400 uppercase mb-1">⚠ Primary Friction Risk</div>
+              <p id="resRedFlag" class="text-sm text-zinc-300"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Locked Deep-Dive Section -->
+        <div class="relative mt-4 pt-6 border-t border-zinc-800">
+          <div id="deepDiveContent" class="blur-lock space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div class="p-4 rounded-xl bg-zinc-900 border border-zinc-800">
+                <div class="text-xs text-zinc-400">Temptation & Trust Index</div>
+                <div id="resTrustMetric" class="text-xl font-bold text-white mt-1">88 / 100</div>
+                <p id="resTrustDetail" class="text-xs text-zinc-400 mt-1">High resistance to outside distraction when communication stays open.</p>
+              </div>
+              <div class="p-4 rounded-xl bg-zinc-900 border border-zinc-800">
+                <div class="text-xs text-zinc-400">Emotional Pacing</div>
+                <div id="resPacingMetric" class="text-xl font-bold text-white mt-1">Synchronized</div>
+                <p id="resPacingDetail" class="text-xs text-zinc-400 mt-1">Both value steady commitment over impulsive decisions.</p>
+              </div>
+              <div class="p-4 rounded-xl bg-zinc-900 border border-zinc-800">
+                <div class="text-xs text-zinc-400">Long-Term Resilience</div>
+                <div id="resResilienceMetric" class="text-xl font-bold text-white mt-1">High</div>
+                <p id="resResilienceDetail" class="text-xs text-zinc-400 mt-1">Recovers quickly after disagreements without holding silent grudges.</p>
+              </div>
+            </div>
+            <div class="p-4 rounded-xl bg-zinc-900 border border-zinc-800">
+              <h4 class="text-sm font-bold text-white mb-1">What They Won't Tell You Out Loud</h4>
+              <p id="resHiddenTruth" class="text-sm text-zinc-300"></p>
+            </div>
+          </div>
+
+          <!-- Paywall Overlay -->
+          <div id="paywallOverlay" class="mt-4 sm:mt-0 sm:absolute sm:inset-0 flex items-center justify-center">
+            <div class="bg-zinc-950/95 border border-zinc-700 p-6 rounded-2xl text-center max-w-md shadow-2xl">
+              <div class="text-xs font-bold uppercase tracking-wider text-pink-400 mb-1">Unlock Full Report</div>
+              <h4 class="text-lg font-bold text-white mb-2">Reveal Their Hidden Loyalty & Trust Triggers</h4>
+              <p class="text-xs text-zinc-400 mb-4">
+                Get the complete Temptation Index, Emotional Pacing breakdown, and "What They Won't Tell You" analysis.
+              </p>
+              <div class="flex flex-col sm:flex-row gap-2 justify-center">
+                <button onclick="openRazorpayCheckout(2)" class="btn-primary px-5 py-2.5 rounded-xl text-sm font-bold text-white cursor-pointer">
+                  Unlock Now — $2 USD
+                </button>
+                <button onclick="unlockReportDemo()" class="px-4 py-2.5 rounded-xl text-xs font-medium bg-zinc-800 hover:bg-zinc-700 text-zinc-300 cursor-pointer">
+                  Preview Full Report
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Run Another Check -->
+        <div class="mt-6 pt-4 border-t border-zinc-800/80 flex justify-between items-center">
+          <button onclick="resetForm()" class="text-xs text-zinc-400 hover:text-white underline cursor-pointer">
+            ← Test Another Person
+          </button>
+          <span class="text-xs text-zinc-500">100% Private • Nothing Stored on Servers</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3-Tier Pricing Section -->
+    <section id="pricing" class="mt-20">
+      <div class="text-center mb-10">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Simple, Pay-As-You-Go Pricing</h2>
+        <p class="text-sm text-zinc-400 mt-2">First scan is free. Upgrade only if you want deeper insights or multiple checks.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Tier 1: $2 -->
+        <div class="glass-card rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="text-sm font-semibold text-zinc-400">Single Deep Dive</div>
+            <div class="mt-2 flex items-baseline gap-1">
+              <span class="text-4xl font-extrabold text-white">$2</span>
+              <span class="text-xs text-zinc-500">USD one-time</span>
+            </div>
+            <p class="text-xs text-zinc-400 mt-3">Perfect for testing one specific person right now.</p>
+            <ul class="mt-5 space-y-2.5 text-sm text-zinc-300">
+              <li>✓ Full Loyalty & Trust Score</li>
+              <li>✓ Temptation & Friction Breakdown</li>
+              <li>✓ "What They Won't Tell You" Insight</li>
+              <li>✓ Custom Question Answer</li>
+            </ul>
+          </div>
+          <button onclick="openRazorpayCheckout(2)" class="mt-6 w-full py-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white text-sm font-semibold transition cursor-pointer">
+            Get 1 Full Scan — $2
+          </button>
+        </div>
+
+        <!-- Tier 2: $5 (Popular) -->
+        <div class="glass-card rounded-2xl p-6 border-2 border-pink-500 relative flex flex-col justify-between shadow-xl shadow-pink-500/10">
+          <div class="absolute -top-3 right-5 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-[10px] font-bold uppercase tracking-wider px-3 py-0.5 rounded-full">
+            Most Popular
+          </div>
+          <div>
+            <div class="text-sm font-semibold text-pink-400">3-Check Pack</div>
+            <div class="mt-2 flex items-baseline gap-1">
+              <span class="text-4xl font-extrabold text-white">$5</span>
+              <span class="text-xs text-zinc-500">USD one-time ($1.66/check)</span>
+            </div>
+            <p class="text-xs text-zinc-400 mt-3">Compare dating options, friends, or business partners.</p>
+            <ul class="mt-5 space-y-2.5 text-sm text-zinc-300">
+              <li>✓ 3 Full Unlocked Compatibility Reports</li>
+              <li>✓ Side-by-Side Trust Comparison</li>
+              <li>✓ Conflict Resolution Playbook</li>
+              <li>✓ Never Expires</li>
+            </ul>
+          </div>
+          <button onclick="openRazorpayCheckout(5)" class="mt-6 w-full py-2.5 rounded-xl btn-primary text-white text-sm font-bold cursor-pointer">
+            Get 3 Scans — $5
+          </button>
+        </div>
+
+        <!-- Tier 3: $10 -->
+        <div class="glass-card rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="text-sm font-semibold text-zinc-400">Unlimited Pass</div>
+            <div class="mt-2 flex items-baseline gap-1">
+              <span class="text-4xl font-extrabold text-white">$10</span>
+              <span class="text-xs text-zinc-500">USD / 30 days</span>
+            </div>
+            <p class="text-xs text-zinc-400 mt-3">Unlimited checks for your entire circle, team, or dating life.</p>
+            <ul class="mt-5 space-y-2.5 text-sm text-zinc-300">
+              <li>✓ Unlimited Full Loyalty Checks</li>
+              <li>✓ Dating, Marriage, Business & Friends</li>
+              <li>✓ Priority Deep Behavioral Engine</li>
+              <li>✓ Zero Auto-Renewal Surprises</li>
+            </ul>
+          </div>
+          <button onclick="openRazorpayCheckout(10)" class="mt-6 w-full py-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white text-sm font-semibold transition cursor-pointer">
+            Unlock Unlimited — $10
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Complete Footer with Razorpay-Required Compliance Links -->
+  <footer class="border-t border-zinc-800/80 bg-zinc-950/90 mt-20">
+    <div class="max-w-5xl mx-auto px-6 py-10">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pb-8 border-b border-zinc-800/80">
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <div class="w-6 h-6 rounded-md bg-gradient-to-tr from-purple-600 to-pink-500 flex items-center justify-center font-extrabold text-white text-xs">
+              LT
+            </div>
+            <span class="font-bold text-base text-white">Loyalty<span class="text-pink-500">Tester</span></span>
+          </div>
+          <p class="text-xs text-zinc-400 max-w-sm">
+            Instant relationship, trust, and compatibility intelligence. Secure international payments powered by Razorpay.
+          </p>
+        </div>
+
+        <!-- Policy Links -->
+        <div class="flex flex-wrap gap-x-6 gap-y-2 text-xs text-zinc-400">
+          <button onclick="openPolicyModal('privacy')" class="hover:text-white transition cursor-pointer">Privacy Policy</button>
+          <button onclick="openPolicyModal('terms')" class="hover:text-white transition cursor-pointer">Terms & Conditions</button>
+          <button onclick="openPolicyModal('refund')" class="hover:text-white transition cursor-pointer">Refund & Cancellation Policy</button>
+          <button onclick="openPolicyModal('contact')" class="hover:text-white transition cursor-pointer">Contact Us</button>
+        </div>
+      </div>
+
+      <div class="pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-zinc-500">
+        <p>© 2026 Loyalty Tester. All rights reserved.</p>
+        <p>Disclaimer: Results are generated for personal reflection and entertainment purposes only.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Razorpay Checkout Fallback Modal (Shown until real rzp.io links are pasted) -->
+  <div id="checkoutModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-zinc-900 border border-zinc-700 rounded-2xl max-w-md w-full p-6 text-center space-y-4">
+      <div class="inline-block px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-semibold">
+        Razorpay International USD Checkout
+      </div>
+      <h3 id="modalTitle" class="text-xl font-bold text-white">Complete Your $2 USD Unlock</h3>
+      <p class="text-sm text-zinc-400">
+        Paste your Razorpay Payment Links into <code class="text-pink-400">RAZORPAY_PAYMENT_LINKS</code> inside the code to redirect users directly to Razorpay.
+      </p>
+      <div class="p-3 rounded-lg bg-zinc-950 border border-zinc-800 text-xs text-zinc-400 font-mono">
+        Redirect URL to set in Razorpay:<br/>
+        <span id="redirectHint" class="text-emerald-400">https://your-site.netlify.app/?tier=2</span>
+      </div>
+      <div class="flex gap-3 pt-2">
+        <button onclick="closeCheckout()" class="flex-1 py-2.5 rounded-xl bg-zinc-800 text-zinc-300 text-sm font-medium cursor-pointer">
+          Cancel
+        </button>
+        <button onclick="simulateSuccessfulPayment()" class="flex-1 py-2.5 rounded-xl btn-primary text-white text-sm font-bold cursor-pointer">
+          Simulate Paid Unlock
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Policy Pop-up Modal -->
+  <div id="policyModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-zinc-900 border border-zinc-700 rounded-2xl max-w-lg w-full p-6 space-y-4 max-h-[85vh] overflow-y-auto">
+      <div class="flex items-center justify-between border-b border-zinc-800 pb-3">
+        <h3 id="policyTitle" class="text-lg font-bold text-white">Privacy Policy</h3>
+        <button onclick="closePolicyModal()" class="text-zinc-400 hover:text-white text-xl leading-none cursor-pointer">&times;</button>
+      </div>
+      <div id="policyBody" class="text-sm text-zinc-300 space-y-3 leading-relaxed"></div>
+      <div class="pt-3 border-t border-zinc-800 text-right">
+        <button onclick="closePolicyModal()" class="px-5 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-white text-xs font-semibold cursor-pointer">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Logic & Razorpay Integration -->
+  <script>
+    // =========================================================================
+    // 1. PASTE YOUR 3 RAZORPAY USD PAYMENT LINKS BELOW
+    // =========================================================================
+    const RAZORPAY_PAYMENT_LINKS = {
+      2: "https://rzp.io/rzp/n8TVvUS",
+      5: "https://rzp.io/rzp/bMQnxBAS",
+      10: "https://rzp.io/rzp/RbvmQk9W"
+    };
+
+    // =========================================================================
+    // 2. AUTO-UNLOCK CREDITS WHEN USER RETURNS FROM RAZORPAY (?tier=2 / 5 / 10)
+    // =========================================================================
+    let freeUsed = localStorage.getItem('lt_free_used') === 'true';
+    let paidCredits = parseInt(localStorage.getItem('lt_paid_credits') || '0', 10);
+    let selectedTierPrice = 2;
+
+    (function checkRazorpayRedirect() {
+      const params = new URLSearchParams(window.location.search);
+      const tier = params.get('tier');
+      if (tier === '2' || tier === '5' || tier === '10') {
+        if (tier === '2') paidCredits += 1;
+        if (tier === '5') paidCredits += 3;
+        if (tier === '10') paidCredits += 99;
+        localStorage.setItem('lt_paid_credits', paidCredits.toString());
+        // Clean URL parameter after crediting
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+    })();
+
+    function updateCreditsUI() {
+      const badge = document.getElementById('creditsBadge');
+      if (paidCredits > 0) {
+        badge.textContent = `${paidCredits} Full Check${paidCredits > 1 ? 's' : ''} Unlocked`;
+        badge.className = "px-3 py-1 rounded-full bg-pink-500/15 text-pink-400 border border-pink-500/30 font-medium text-xs";
+      } else if (!freeUsed) {
+        badge.textContent = "1 Free Check Available";
+      } else {
+        badge.textContent = "Free Check Used • From $2";
+        badge.className = "px-3 py-1 rounded-full bg-zinc-800 text-zinc-300 border border-zinc-700 font-medium text-xs";
+      }
+    }
+    updateCreditsUI();
+
+    // Context pill selection
+    document.querySelectorAll('.context-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.context-btn').forEach(b => {
+          b.className = "context-btn py-2.5 px-3 rounded-xl text-sm font-medium border border-zinc-800 bg-zinc-900/60 text-zinc-400 hover:border-zinc-700 transition";
+        });
+        btn.className = "context-btn active-pill py-2.5 px-3 rounded-xl text-sm font-medium border border-pink-500 bg-pink-500/15 text-white transition";
+        document.getElementById('selectedContext').value = btn.dataset.context;
+      });
+    });
+
+    function toggleInput(inputId, isDisabled) {
+      const el = document.getElementById(inputId);
+      el.disabled = isDisabled;
+      if (isDisabled) {
+        el.value = '';
+        el.classList.add('opacity-40');
+      } else {
+        el.classList.remove('opacity-40');
+      }
+    }
+
+    /**
+     * SILENT VEDIC COMPATIBILITY ENGINE (36-Point Ashta-Koota Model + Chandra/Numerology Fallback)
+     */
+    function computeHiddenAlignment(p1, p2, context) {
+      function getLunarIndex(dobStr, timeStr, placeStr) {
+        const d = new Date(dobStr + 'T' + (timeStr || '12:00:00'));
+        const daysSinceEpoch = d.getTime() / (1000 * 60 * 60 * 24);
+        let nakshatraIndex = Math.floor(((daysSinceEpoch % 27.321661) + 27.321661) % 27.321661);
+        if (placeStr && placeStr.trim().length > 0) {
+          const cityHash = placeStr.trim().toLowerCase().split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
+          nakshatraIndex = (nakshatraIndex + (cityHash % 3)) % 27;
+        }
+        return nakshatraIndex;
+      }
+
+      const n1 = getLunarIndex(p1.dob, p1.time, p1.place);
+      const n2 = getLunarIndex(p2.dob, p2.time, p2.place);
+      const rashi1 = Math.floor(n1 / 2.25);
+      const rashi2 = Math.floor(n2 / 2.25);
+
+      const varna = (rashi1 % 4) >= (rashi2 % 4) ? 1 : 0.5;
+      const vashya = Math.abs(rashi1 - rashi2) <= 4 ? 2 : 1;
+      const taraDist = ((n2 - n1 + 27) % 27) % 9;
+      const tara = [1, 2, 4, 6, 8].includes(taraDist) ? 3 : 1.5;
+      const yoni = (n1 % 14 === n2 % 14) ? 4 : (Math.abs((n1 % 14) - (n2 % 14)) <= 4 ? 3 : 1.5);
+      const grahaMaitri = [0, 3, 4, 7, 8, 11].includes(Math.abs(rashi1 - rashi2)) ? 5 : 2.5;
+      const gana1 = n1 % 3;
+      const gana2 = n2 % 3;
+      const gana = (gana1 === gana2) ? 6 : (Math.abs(gana1 - gana2) === 1 ? 4 : 1.5);
+      const bhakootDiff = (rashi2 - rashi1 + 12) % 12;
+      const bhakoot = [1, 5, 7, 11].includes(bhakootDiff) ? 2 : 7;
+      const nadi1 = n1 % 3;
+      const nadi2 = n2 % 3;
+      const nadi = (nadi1 !== nadi2) ? 8 : 2;
+
+      let totalGuna = varna + vashya + tara + yoni + grahaMaitri + gana + bhakoot + nadi;
+
+      if (context.includes('Business')) {
+        totalGuna = (grahaMaitri * 2.2) + (gana * 1.8) + (bhakoot * 1.5) + (tara * 1.2);
+      }
+
+      const percentage = Math.min(97, Math.max(46, Math.round((totalGuna / 36) * 100)));
+      const hasFullData = Boolean(p1.time && p2.time && p1.place && p2.place);
+
+      return { score: percentage, hasFullData, grahaMaitri, gana, bhakoot, nadi, yoni };
+    }
+
+    // Form Submission
+    document.getElementById('loyaltyForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const p1 = {
+        name: document.getElementById('p1Name').value.trim(),
+        dob: document.getElementById('p1Dob').value,
+        time: document.getElementById('p1NoTime').checked ? '' : document.getElementById('p1Time').value,
+        place: document.getElementById('p1NoPlace').checked ? '' : document.getElementById('p1Place').value
+      };
+      const p2 = {
+        name: document.getElementById('p2Name').value.trim(),
+        dob: document.getElementById('p2Dob').value,
+        time: document.getElementById('p2NoTime').checked ? '' : document.getElementById('p2Time').value,
+        place: document.getElementById('p2NoPlace').checked ? '' : document.getElementById('p2Place').value
+      };
+      const context = document.getElementById('selectedContext').value;
+      const question = document.getElementById('specificQuestion').value.trim();
+
+      if (freeUsed && paidCredits <= 0) {
+        openRazorpayCheckout(2);
+        return;
+      }
+
+      document.getElementById('formSection').classList.add('hidden');
+      document.getElementById('resultsSection').classList.add('hidden');
+      document.getElementById('loadingState').classList.remove('hidden');
+
+      setTimeout(() => {
+        const result = computeHiddenAlignment(p1, p2, context);
+        renderReport(p1, p2, context, question, result);
+
+        if (paidCredits > 0) {
+          paidCredits--;
+          localStorage.setItem('lt_paid_credits', paidCredits.toString());
+          unlockReportDemo();
+        } else {
+          freeUsed = true;
+          localStorage.setItem('lt_free_used', 'true');
+          lockReport();
+        }
+        updateCreditsUI();
+
+        document.getElementById('loadingState').classList.add('hidden');
+        document.getElementById('resultsSection').classList.remove('hidden');
+        document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+      }, 1500);
+    });
+
+    function renderReport(p1, p2, context, question, res) {
+      document.getElementById('resContextTag').textContent = context;
+      document.getElementById('resPairTitle').textContent = `${p1.name} & ${p2.name}`;
+      document.getElementById('resScore').textContent = `${res.score}%`;
+      document.getElementById('resPrecisionNote').textContent = res.hasFullData
+        ? "High-Precision Birth Time & Location Scan"
+        : "Core Date & Behavioral Baseline Scan (Adapted for Missing Time/City)";
+
+      const verdictEl = document.getElementById('resVerdictLabel');
+      if (res.score >= 80) {
+        verdictEl.textContent = "High Loyalty & Alignment";
+        verdictEl.className = "text-xs font-medium text-emerald-400";
+      } else if (res.score >= 65) {
+        verdictEl.textContent = "Moderate — Needs Clear Boundaries";
+        verdictEl.className = "text-xs font-medium text-amber-400";
+      } else {
+        verdictEl.textContent = "High Friction — Proceed Carefully";
+        verdictEl.className = "text-xs font-medium text-rose-400";
+      }
+
+      let summaryText = "";
+      if (res.score >= 80) {
+        summaryText = `${p1.name} and ${p2.name} share a naturally grounded foundation for ${context.toLowerCase()}. ${p2.name} tends to value consistency over drama, meaning loyalty comes naturally once trust is established—provided both people communicate expectations early rather than assuming they are on the same page.`;
+      } else if (res.score >= 65) {
+        summaryText = `There is genuine chemistry and potential between ${p1.name} and ${p2.name} in ${context.toLowerCase()}, but your natural pacing differs. ${p2.name} can occasionally pull back when feeling pressured, which may feel like mixed signals unless clear ground rules are set upfront.`;
+      } else {
+        summaryText = `${p1.name} and ${p2.name} operate on very different emotional and decision-making wavelengths for ${context.toLowerCase()}. While initial attraction or excitement may be strong, long-term loyalty will be tested whenever stress, money, or outside distractions enter the picture.`;
+      }
+      document.getElementById('resSummary').textContent = summaryText;
+
+      document.getElementById('resGreenFlag').textContent = res.grahaMaitri >= 4
+        ? `Strong mental wavelength: ${p2.name} genuinely respects how ${p1.name} thinks and rarely holds petty grudges after honest conversations.`
+        : `High magnetic pull: Strong initial chemistry and willingness to show up when things get serious.`;
+
+      document.getElementById('resRedFlag').textContent = res.bhakoot <= 3
+        ? `Silent scorekeeping: Unspoken expectations around money, time, or effort can quietly build resentment if not addressed directly.`
+        : `Stubborn pride during conflict: Both people hate feeling controlled, which can turn minor misunderstandings into standoff moments.`;
+
+      const qBox = document.getElementById('resQuestionBox');
+      if (question) {
+        qBox.classList.remove('hidden');
+        document.getElementById('resQuestionAnswer').textContent = res.score >= 75
+          ? `Regarding "${question}" — The alignment markers indicate ${p2.name}'s intentions are largely consistent with their actions, though they guard their deeper vulnerabilities until they feel 100% secure.`
+          : `Regarding "${question}" — Watch actions over words closely over the next 30 days. ${p2.name} may tell you what keeps the peace in the moment while keeping backup options open.`;
+      } else {
+        qBox.classList.add('hidden');
+      }
+
+      document.getElementById('resTrustMetric').textContent = `${Math.min(96, res.score + 4)} / 100`;
+      document.getElementById('resPacingMetric').textContent = res.nadi >= 6 ? "Complementary" : "Clashing Paces";
+      document.getElementById('resResilienceMetric').textContent = res.gana >= 4 ? "High Stability" : "Volatile Under Stress";
+      document.getElementById('resHiddenTruth').textContent = `${p2.name} secretly tests loyalty by observing how ${p1.name} reacts to small inconveniences. If ${p1.name} stays calm and unbothered rather than reactive, ${p2.name}'s respect and commitment lock in significantly deeper.`;
+    }
+
+    function lockReport() {
+      document.getElementById('deepDiveContent').classList.add('blur-lock');
+      document.getElementById('paywallOverlay').classList.remove('hidden');
+    }
+
+    function unlockReportDemo() {
+      document.getElementById('deepDiveContent').classList.remove('blur-lock');
+      document.getElementById('paywallOverlay').classList.add('hidden');
+    }
+
+    function resetForm() {
+      document.getElementById('resultsSection').classList.add('hidden');
+      document.getElementById('formSection').classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // =========================================================================
+    // 3. RAZORPAY CHECKOUT HANDLER
+    // =========================================================================
+    function openRazorpayCheckout(price) {
+      selectedTierPrice = price;
+      const rzpLink = RAZORPAY_PAYMENT_LINKS[price];
+
+      if (rzpLink && !rzpLink.includes("REPLACE_WITH")) {
+        window.location.href = rzpLink;
+      } else {
+        document.getElementById('modalTitle').textContent = `Complete Your $${price} USD Unlock`;
+        document.getElementById('redirectHint').textContent = `${window.location.origin}/?tier=${price}`;
+        document.getElementById('checkoutModal').classList.remove('hidden');
+      }
+    }
+
+    function closeCheckout() {
+      document.getElementById('checkoutModal').classList.add('hidden');
+    }
+
+    function simulateSuccessfulPayment() {
+      closeCheckout();
+      if (selectedTierPrice === 2) paidCredits += 1;
+      if (selectedTierPrice === 5) paidCredits += 3;
+      if (selectedTierPrice === 10) paidCredits += 99;
+      localStorage.setItem('lt_paid_credits', paidCredits.toString());
+      updateCreditsUI();
+      unlockReportDemo();
+    }
+
+    // =========================================================================
+    // 4. FOOTER COMPLIANCE MODALS (Privacy, Terms, Refund, Contact)
+    // =========================================================================
+    const POLICY_CONTENT = {
+      privacy: {
+        title: "Privacy Policy",
+        body: `
+          <p><strong>1. Zero Personal Data Storage:</strong> Loyalty Tester does not require user accounts, emails, or phone numbers to run compatibility scans. Names, dates of birth, and birth locations entered into the form are processed locally in your browser session and are not stored on our servers.</p>
+          <p><strong>2. Payment Processing:</strong> All payments are processed securely by Razorpay. We do not collect, view, or store your credit card, debit card, or banking information.</p>
+          <p><strong>3. Local Storage:</strong> We use standard browser localStorage solely to track your free trial status and unlocked scan credits on your device.</p>
+        `
+      },
+      terms: {
+        title: "Terms & Conditions",
+        body: `
+          <p><strong>1. Service Overview:</strong> Loyalty Tester provides automated behavioral and compatibility reports based on user-supplied details.</p>
+          <p><strong>2. Entertainment & Reflection Only:</strong> All scores, flags, and insights are intended strictly for personal entertainment and self-reflection. They should not replace professional legal, financial, medical, or psychological advice.</p>
+          <p><strong>3. Pricing:</strong> Your first scan is complimentary. Additional deep-dive scans and multi-check packs are billed in USD ($2, $5, or $10) as one-time purchases without hidden recurring subscriptions.</p>
+        `
+      },
+      refund: {
+        title: "Refund & Cancellation Policy",
+        body: `
+          <p><strong>1. Digital Product Delivery:</strong> Because compatibility reports and scan credits are delivered digitally and unlocked immediately upon payment, purchases are generally non-refundable once credits have been used.</p>
+          <p><strong>2. Duplicate or Failed Unlocks:</strong> If you were charged via Razorpay but your report did not unlock due to a browser or network interruption, contact us within 7 days with your Razorpay Payment ID and we will restore your credits or issue a full refund within 5–7 business days.</p>
+          <p><strong>3. Cancellations:</strong> All plans ($2, $5, and $10) are one-time payments—there are no automatic renewals to cancel.</p>
+        `
+      },
+      contact: {
+        title: "Contact Us",
+        body: `
+          <p>Have a question about your report, payment, or credits? Reach out to our support team and include your Razorpay Payment ID if applicable.</p>
+          <div class="p-4 rounded-xl bg-zinc-950 border border-zinc-800 space-y-1 text-xs">
+            <p><strong class="text-white">Support Email:</strong> support@loyaltytester.com</p>
+            <p><strong class="text-white">Response Time:</strong> Within 24 hours (Monday – Saturday)</p>
+            <p><strong class="text-white">Operating Region:</strong> India (Serving Global & US Customers)</p>
+          </div>
+        `
+      }
+    };
+
+    function openPolicyModal(type) {
+      const policy = POLICY_CONTENT[type];
+      document.getElementById('policyTitle').textContent = policy.title;
+      document.getElementById('policyBody').innerHTML = policy.body;
+      document.getElementById('policyModal').classList.remove('hidden');
+    }
+
+    function closePolicyModal() {
+      document.getElementById('policyModal').classList.add('hidden');
+    }
+  </script>
+</body>
+</html>
