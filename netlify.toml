@@ -1,0 +1,10 @@
+# Plain static site: a single HTML file with Tailwind loaded from a CDN.
+# There is no framework, package manager, or dependency install.
+#
+# The page lives in "Loyalty tester index.html" rather than index.html, so the
+# build copies it into the publish folder as index.html. That way it's served
+# at the site root, which is where the Razorpay payment links send buyers back
+# (/?tier=2|5|10).
+[build]
+  command = "mkdir -p dist && cp 'Loyalty tester index.html' dist/index.html"
+  publish = "dist"
